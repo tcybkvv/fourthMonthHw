@@ -65,3 +65,52 @@ reset.onclick = () => {
     secs = 0;
     seconds.innerText = 0;
 };
+
+// CHARACTERS
+const charactersBlock = document.querySelector('.characters-list');
+
+window.onload = () => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', '../data/characters.json');
+    xhr.setRequestHeader('Content-type', 'application/json');
+    xhr.send()
+
+    xhr.onload = () => {
+        const data = JSON.parse(xhr.response);
+        data.forEach(character => {
+            const characterDiv = document.createElement('div');
+            const imgBlock = document.createElement('div');
+            const img = document.createElement('img');
+            const h3 = document.createElement('h3');
+            const p = document.createElement('p');
+            characterDiv.className = 'character';
+            imgBlock.className = 'imgBlock';
+            imgBlock.appendChild(img);
+            characterDiv.append(imgBlock, h3, p)
+            img.src = character.photo
+            h3.innerHTML = `Name: ${character.name}`
+            p.innerHTML = `Age: ${character.age}`
+            charactersBlock.append(characterDiv);
+        })
+    }
+}
+
+// BIO
+const bioBtn = document.querySelector('.bio');
+
+bioBtn.onclick = () => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', '../data/bio.json');
+    xhr.setRequestHeader('Content-type', 'application/json');
+    xhr.send()
+
+    xhr.onload = () => {
+        const data = JSON.parse(xhr.response);
+        console.log(`
+        Name: ${data.name}
+        Age: ${data.age}
+        Is study? - ${data.isStudy}
+        Language: ${data.language}
+        `)
+    }
+}

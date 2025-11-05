@@ -1,17 +1,17 @@
 [
   {
-    "name": "",
-    "age": 0,
-    "photo": "url"
+    "name": "Peter Parker",
+    "age": 17,
+    "photo": "https://i.pinimg.com/736x/6b/cd/22/6bcd22047a1a2084c7764f020f417594.jpg"
   },
   {
-    "name": "",
-    "age": 0,
-    "photo": "url"
+    "name": "Harry Potter",
+    "age": 17,
+    "photo": "https://i.pinimg.com/736x/89/17/c1/8917c113d292a0a8ff43dd9e808048ac.jpg"
   },
   {
-    "name": "",
-    "age": 0,
-    "photo": "url"
+    "name": "Thomas",
+    "age": 16,
+    "photo": "https://geekhero.ru/wp-content/uploads/2014/09/maze-runner-dylan-o-brien-636-380.jpg"
   }
 ]

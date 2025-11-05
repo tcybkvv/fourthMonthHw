@@ -52,6 +52,7 @@ tabsParent.onclick = (e) => {
         tabs.forEach((tab, index) => {
             if (e.target === tab) {
                 hideTabContent();
+                currentTab = index;
                 showTabContent(index);
             }
         })
