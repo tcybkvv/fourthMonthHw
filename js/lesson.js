@@ -97,3 +97,55 @@ const converter = (element, targetElement, targetElement2) => {
 converter(somInput, usdInput, eurInput)
 converter(usdInput, somInput, eurInput)
 converter(eurInput, somInput, usdInput)
+
+//CARD SWITCHER
+
+const card = document.querySelector('.card'),
+    btnPrev = document.querySelector("#btn-prev"),
+    btnNext = document.querySelector('#btn-next');
+
+let count = 1;
+
+async function loadData(count) {
+    try{
+        const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${count}`);
+        const data = await response.json();
+        card.innerHTML = `
+            <p>${data.title}</p>
+            <p style="color: ${data.completed ? "green" : "red" }">${data.completed}</p>
+            <span>${data.id}</span>
+        `
+    }
+    catch(e){
+        console.log('Fetch error:', error);
+    }
+}
+
+function updateCount(operation) {
+    if (operation === 'next') {
+        count = count < 200 ? count + 1 : 1;
+    } else if (operation === 'prev') {
+        count = count > 1 ? count - 1 : 200;
+    }
+    loadData(count);
+}
+
+btnNext.onclick = () => updateCount('next');
+
+btnPrev.onclick = () => updateCount('prev');
+
+loadData(count);
+
+
+async function asyncLoadPosts() {
+    try{
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts')
+        const data = await response.json()
+        console.log(data);
+    }
+    catch(e){
+        console.log('Fetch error:', error);
+    }
+}
+
+asyncLoadPosts()
