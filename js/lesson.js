@@ -66,14 +66,10 @@ const usdInput = document.querySelector('#usd');
 const eurInput = document.querySelector('#eur');
 
 const converter = (element, targetElement, targetElement2) => {
-    element.oninput = () => {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', '../data/converter.json');
-        xhr.setRequestHeader('Content-type', 'application/json');
-        xhr.send()
-
-        xhr.onload = () => {
-            const data = JSON.parse(xhr.response);
+    element.oninput = async () => {
+        try{
+            const response = await fetch(`../data/converter.json`);
+            const data = await response.json();
             if (element.id === 'som') {
                 targetElement.value = (element.value / data.usd).toFixed(2);
                 targetElement2.value = (element.value / data.eur).toFixed(2);
@@ -90,6 +86,9 @@ const converter = (element, targetElement, targetElement2) => {
                 targetElement.value = '';
                 targetElement2.value = '';
             }
+        }
+        catch(e){
+            console.log('Fetch error:', e);
         }
     }
 }
@@ -117,7 +116,7 @@ async function loadData(count) {
         `
     }
     catch(e){
-        console.log('Fetch error:', error);
+        console.log('Fetch error:', e);
     }
 }
 
@@ -149,3 +148,37 @@ async function asyncLoadPosts() {
 }
 
 asyncLoadPosts()
+
+
+// WEATHER
+
+const searchInput = document.querySelector('.cityName')
+const searchBtn = document.querySelector('#search');
+const cityName = document.querySelector('.city');
+const cityTemp = document.querySelector('.temp');
+
+const API_URL = 'http://api.openweathermap.org/data/2.5/weather';
+const API_KEY = 'e417df62e04d3b1b111abeab19cea714'
+
+searchBtn.onclick = async () => {
+    try {
+        if (searchInput.value !== '') {
+            const responseWeather = await fetch(`${API_URL}?appid=${API_KEY}&q=${searchInput.value}&units=metric&lang=ru`)
+            const dataWeather = await responseWeather.json();
+            if (dataWeather.status === '404') {
+                cityName.innerHTML = 'Введите корректное название';
+                cityTemp.innerHTML = '';
+            } else {
+                cityName.innerHTML = dataWeather.name;
+                cityTemp.innerHTML = Math.round(dataWeather.main.temp) + 'ºC';
+            }
+            searchInput.value = ''
+        } else {
+            cityName.innerHTML = 'Введите название города';
+            cityTemp.innerHTML = '';
+        }
+    } catch (error) {
+        console.log(error);
+    }
+
+}
